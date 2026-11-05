@@ -4,4 +4,9 @@
 
 @media(max-width:750px){.nav{height:auto;min-height:66px;flex-wrap:wrap;padding:12px 0}.nav nav{order:3;width:100%;justify-content:space-between;gap:8px;font-size:12px}.hero{padding:48px 0}.heroGrid,.columns,.adminGrid{grid-template-columns:1fr}.heroCard{max-width:330px;margin:auto}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productImg{height:145px}.cardBody{padding:12px}.cardFoot{align-items:start;flex-direction:column}.section{padding:48px 0}.section h2{font-size:26px}.footer{flex-wrap:wrap}.adminRow{align-items:flex-start;flex-direction:column}}
 
-@media(max-width:390px){.grid{grid-template-columns:1fr}.productImg{height:190px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.productImg{height:190px}}#admin {
+  display: block !important;
+  position: relative;
+  z-index: 6;
+  width: 100%;
+}
