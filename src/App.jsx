@@ -84,8 +84,20 @@ export default function App() {
   const editProduct = p => setProductForm({...p});
   const deleteProduct = async id => { if(!confirm('حذف هذا المنتج؟')) return; const {error}=await supabase.from('products').delete().eq('id',id); setNotice(error?.message || 'تم حذف المنتج'); loadProducts(); };
   const updateStatus = async (table,id,status) => {const {error}=await supabase.from(table).update({status}).eq('id',id); if(error) setNotice(error.message); else loadAdminData();};
-  return <div><header className="top"><div className="wrap nav"><a className="brand" href="#"><span>RM</span> PHONE</a><nav><a href="#products">المنتجات</a><a href="#repair">إصلاح الهواتف</a><a href="#contact">اتصل بنا</a></nav><button className="adminBtn" onClick={() => {setAdminOpen(true); setTimeout(() => document.getElementById('admin')?.scrollIntoView({behavior:'smooth'}), 100);}}>لوحة الإدارة</button>>لوحة الإدارة</button></div></header>
-    <main>
+  return <div><header className="top">
+  <div className="wrap nav">
+    <a className="brand" href="#"><span>RM</span> PHONE</a>
+    <nav>
+      <a href="#products">المنتجات</a>
+      <a href="#repair">إصلاح الهواتف</a>
+      <a href="#contact">اتصل بنا</a>
+    </nav>
+    <button className="adminBtn" onClick={() => {
+      setAdminOpen(true);
+      setTimeout(() => document.getElementById('admin')?.scrollIntoView({behavior:'smooth'}), 100);
+    }}>لوحة الإدارة</button>
+  </div>
+</header>
       <section className="hero"><div className="wrap heroGrid"><div><p className="tag">RM PHONE • بيع وصيانة</p><h1>كل ما يحتاجه هاتفك<br/><em>في مكان واحد</em></h1><p>هواتف، إكسسوارات، شواحن وسماعات، مع خدمات إصلاح احترافية.</p><a className="primary" href="#products">تسوق الآن</a></div><div className="heroCard"><div className="phone">RM</div><b>RM PHONE</b><small>بيع • إكسسوارات • صيانة</small></div></div></section>
       <section id="products" className="section wrap"><div className="sectionHead"><div><p className="tag">اختياراتنا</p><h2>منتجات المتجر</h2></div><span className="count">{filtered.length} منتج</span></div><div className="chips">{categories.map(c=><button className={category===c?'selected':''} onClick={()=>setCategory(c)} key={c}>{c}</button>)}</div><div className="grid">{filtered.map(p=><article className="card" key={p.id}><div className="productImg">{p.image_url?<img src={p.image_url} alt={p.name}/>:<span>RM</span>}</div><div className="cardBody"><small>{p.category}</small><h3>{p.name}</h3><p>{p.description}</p><div className="cardFoot"><b>{money(p.price)}</b><button onClick={()=>addCart(p)}>أضف للسلة +</button></div></div></article>)}</div>{!filtered.length&&<div className="empty">لا توجد منتجات حالياً. أضف منتجاتك من لوحة الإدارة.</div>}</section>
       <section className="section pale"><div className="wrap columns"><div><p className="tag">طلب سريع</p><h2>سلة المشتريات</h2><p>راجع منتجاتك وأرسل الطلب، وسنتصل بك لتأكيده.</p><div className="cart">{cart.length?cart.map(p=><div className="cartRow" key={p.id}><span>{p.name} × {p.qty}</span><b>{money(p.price*p.qty)}</b></div>):<p>السلة فارغة حالياً.</p>}<div className="cartTotal"><b>المجموع</b><strong>{money(total)}</strong></div></div></div><form className="panel" onSubmit={sendOrder}><h3>معلومات التوصيل</h3><input required placeholder="الاسم الكامل" value={form.customer_name} onChange={e=>setForm({...form,customer_name:e.target.value})}/><input required placeholder="رقم الهاتف" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/><input required placeholder="المدينة" value={form.city} onChange={e=>setForm({...form,city:e.target.value})}/><input placeholder="العنوان" value={form.address} onChange={e=>setForm({...form,address:e.target.value})}/><button className="primary full" disabled={busy||!cart.length}>{busy?'جار الإرسال...':'تأكيد الطلب'}</button><small>التوصيل 0 DH حالياً، يتم تأكيد التفاصيل هاتفياً.</small></form></div></section>
